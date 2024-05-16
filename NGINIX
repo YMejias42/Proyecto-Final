@@ -1,0 +1,44 @@
+server {
+ listen 80;
+ server_name tu_dominio.com; # Reemplaza con tu dominio
+ location / {
+ proxy_pass http://127.0.0.1:8000;
+ proxy_set_header Host $host;
+ proxy_set_header X-Real-IP $remote_addr;
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+ proxy_set_header X-Forwarded-Proto $scheme;
+ }
+}
+NGINIX de Flask app.py
+import mysql.connector
+from flask import Flask, jsonify
+app = Flask(_name_)
+# Configuración de la conexión a la base de datos
+db_config = {
+ 'user': 'tu_usuario', # Reemplaza con tu usuario de MariaDB
+ 'password': 'tu_contraseña', # Reemplaza con tu contraseña de MariaDB
+ 'host': 'localhost',
+ 'database': 'tu_base_de_datos' # Reemplaza con el nombre de tu base de datos
+}
+@app.route('/')
+def index():
+ connection = mysql.connector.connect(**db_config)
+ cursor = connection.cursor()
+ cursor.execute("SELECT '¡Bienvenido a la Administración de Restaurantes!'")
+ result = cursor.fetchone()
+ connection.close()
+ return jsonify(result)
+if _name_ == "_main_":
+ app.run()
+Para abrir el puerto 8000.
+server {
+ listen 80;
+ server_name tu_dominio.com;
+ location / {
+ proxy_pass http://unix:/ruta/a/tu/aplicacion/gunicorn.sock;
+ proxy_set_header Host $host;
+ proxy_set_header X-Real-IP $remote_addr;
+ proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+ proxy_set_header X-Forwarded-Proto $scheme;
+ }
+}
