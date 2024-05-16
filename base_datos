@@ -1,0 +1,35 @@
+-- Creación de la base de datos
+CREATE DATABASE IF NOT EXISTS Restaurante;
+-- Uso de la base de datos
+USE Restaurante;
+-- Creación de la tabla para las mesas
+CREATE TABLE IF NOT EXISTS Mesas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  numero INT NOT NULL,
+  capacidad INT NOT NULL
+);
+-- Creación de la tabla para los clientes
+CREATE TABLE IF NOT EXISTS Clientes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  telefono VARCHAR(20),
+  email VARCHAR(100)
+);
+-- Creación de la tabla para los pedidos
+CREATE TABLE IF NOT EXISTS Pedidos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  mesa_id INT,
+  cliente_id INT,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (mesa_id) REFERENCES Mesas(id),
+  FOREIGN KEY (cliente_id) REFERENCES Clientes(id)
+);
+-- Creación de la tabla para los detalles del pedido
+CREATE TABLE IF NOT EXISTS DetallesPedido (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  pedido_id INT,
+  producto VARCHAR(100) NOT NULL,
+  cantidad INT NOT NULL,
+  precio DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (pedido_id) REFERENCES Pedidos(id)
+);
